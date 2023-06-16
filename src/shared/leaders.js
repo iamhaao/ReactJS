@@ -37,4 +37,5 @@ export const LEADERS = [
     }
 ];
 
+
 export default LEADERS;
