@@ -10,10 +10,10 @@ function RenderLeader({ leader, onClick }) {
         <Card>
 
             <Media>
-                <Media left className='col-sm-3'>
+                <Media left className='col-sm-9'>
                     <Media object src={leader.image} alt={leader.name} />
                 </Media>
-                <Media body className='col-sm-9'>
+                <Media body className='col-sm-3'>
                     <Media heading>{leader.name}</Media>
                     <p>{leader.designation}</p>
                     <p>{leader.description}</p>
