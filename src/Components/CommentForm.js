@@ -6,7 +6,7 @@ import { LocalForm, Control, Errors } from 'react-redux-form';
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
-const isNumber = (val) => !isNaN(Number(val));
+
 
 class CommentForm extends Component {
     constructor(props) {
@@ -54,12 +54,12 @@ class CommentForm extends Component {
                                     />
                                     <Errors
                                         className="text-danger"
-                                        model=".firstname"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             required: 'Required',
-                                            minLength: 'Must be greater than 3 characters',
-                                            maxLength: 'Must be 20 characters or less'
+                                            minLength: 'Must be greater than 2 characters',
+                                            maxLength: 'Must be 15 characters or less'
                                         }}
                                     />
                                 </div>
@@ -71,9 +71,6 @@ class CommentForm extends Component {
                                         id="rating"
                                         name="rating"
                                         className="form-control"
-                                        validators={{
-                                            required
-                                        }}
                                     >
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -81,16 +78,7 @@ class CommentForm extends Component {
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                     </Control.select>
-                                    <Errors
-                                        className="text-danger"
-                                        model=".firstname"
-                                        show="touched"
-                                        messages={{
-                                            required: 'Required'
-                                        }}
-                                    />
                                 </div>
-
                                 <div className="form-group">
                                     <label htmlFor="comment">Comment</label>
                                     <Control.textarea
@@ -101,16 +89,6 @@ class CommentForm extends Component {
                                         rows={6}
                                         validators={{
                                             required, minLength: minLength(2), maxLength: maxLength(100)
-                                        }}
-                                    />
-                                    <Errors
-                                        className="text-danger"
-                                        model=".firstname"
-                                        show="touched"
-                                        messages={{
-                                            required: 'Required',
-                                            minLength: 'Must be greater than 2 characters',
-                                            maxLength: 'Must be 100 characters or less'
                                         }}
                                     />
                                 </div>
