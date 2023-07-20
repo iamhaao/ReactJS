@@ -1,19 +1,28 @@
 import React, { Component } from "react";
-import { Card, CardTitle, CardImg, CardImgOverlay, CardBody, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Card, CardTitle, CardImg, CardImgOverlay, CardBody, Breadcrumb, BreadcrumbItem, CardText } from "reactstrap";
 import { Link } from 'react-router-dom';
 import CommentForm from './CommentForm';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 function RenderDish({ dish }) {
     if (dish != null)
         return (
-            <Card>
-                <CardImg width="100%" src={dish.image} alt={dish.name} />
+            <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
+                <Card>
+                    <CardImg top src={baseUrl + dish.image} alt={dish.name} />
+                    <CardBody>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
+                    </CardBody>
+                </Card>
+            </FadeTransform>
 
-                <CardTitle>{dish.name}</CardTitle>
-                <CardBody>{dish.description}</CardBody>
-
-            </Card>
         )
     else {
         return (
@@ -22,27 +31,19 @@ function RenderDish({ dish }) {
     }
 }
 
-function RenderComments({ comments, addComment, dishId }) {
+function RenderComments({ comments, postComment, dishId }) {
     if (comments != null) {
-        const comment = comments.map((comment) => {
+        const comment = comments.map(comment => {
             return (
-                <div className="container">
-                    <div key={comment.id}>
-                        <li key={comment.id}>
-                            <p>{comment.comment}</p>
-                            <p>-- {comment.author},
-                                &nbsp;
-                                {new Intl.DateTimeFormat('en-US', {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: '2-digit'
-                                }).format(new Date(comment.date))}
-                            </p>
-                        </li>
-                    </div>
-                </div>
+                <Fade in>
+                    <li key={comment.id} >
+                        {comment.comment}
+                        <br /><br />
+                        -- {comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}
+                        <br /><br />
+                    </li>
+                </Fade>
             );
-
         });
         return (
 
@@ -51,7 +52,7 @@ function RenderComments({ comments, addComment, dishId }) {
                 <ul>
                     {comment}
                 </ul>
-                <CommentForm dishId={dishId} addComment={addComment} />
+                <CommentForm dishId={dishId} postComment={postComment} />
             </div>
 
         )
@@ -59,7 +60,7 @@ function RenderComments({ comments, addComment, dishId }) {
 
     else {
         return (
-            <div><CommentForm dishId={dishId} addComment={addComment} /></div>
+            <div><CommentForm dishId={dishId} postComment={postComment} /></div>
         )
     }
 }
@@ -103,7 +104,7 @@ const DishDetail = (props) => {
                         <RenderDish dish={props.dish} />
                     </div>
                     <RenderComments comments={props.comments}
-                        addComment={props.addComment}
+                        postComment={props.postComment}
                         dishId={props.dish.id}
                     />
 
